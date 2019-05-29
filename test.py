@@ -27,7 +27,7 @@ def parse_args():
     parser.add_argument('--max_per_image', dest='max_per_image', default=10, type=int)
     parser.add_argument('--check_epoch', dest='check_epoch', default=9, type=int)
     parser.add_argument('--output_dir', dest='output_dir', default='output', type=str)
-    parser.add_argument('--is_vis', dest='is_vis', default=False, type=bool)
+    parser.add_argument('--vis', dest='vis', default=False, type=bool)
 
     args = parser.parse_args()
     return args
@@ -103,7 +103,7 @@ def test():
         detect_time = det_tic - det_toc
         nms_tic = time.time()
 
-        if args.is_vis:
+        if args.vis:
             im_show = Image.open(imdb.image_path_at(i))
 
         for j in range(1, imdb.num_classes):
@@ -117,7 +117,7 @@ def test():
                 cls_dets = cls_dets[order]
                 keep = nms(cls_dets, 0.3)
                 cls_dets = cls_dets[keep.view(-1).long()]
-                if args.is_vis:
+                if args.vis:
                     cls_name_dets = np.repeat(j, cls_dets.size(0))
                     im_show = draw_detection_boxes(im_show, cls_dets.cpu().numpy(), cls_name_dets, imdb.classes, 0.5)
                 all_boxes[j][i] = cls_dets.cpu().numpy()
@@ -133,7 +133,7 @@ def test():
                     keep = np.where(all_boxes[j][i][:, -1] >= image_thresh)[0]
                     all_boxes[j][i] = all_boxes[j][i][keep, :]
 
-        if args.is_vis:
+        if args.vis:
             plt.imshow(im_show)
             plt.show()
         nms_toc = time.time()

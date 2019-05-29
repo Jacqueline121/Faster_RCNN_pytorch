@@ -1,0 +1,7 @@
+numpy
+scipy
+opencv-python
+pillow
+tensorboardX
+easydict
+matplotlib
