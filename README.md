@@ -28,11 +28,11 @@ $ sh make.sh
 
 ### Training on PASCAL VOC
 
-####Train
-$ python train.py
+#### Train
+    $ python train.py
 
-####Test
-$ python test.py
+#### Test
+    $ python test.py
 
 
 
