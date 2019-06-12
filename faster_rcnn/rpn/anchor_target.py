@@ -34,13 +34,13 @@ def anchor_target(rpn_cls_prob, gt_boxes, im_info):
     assert batch_size == 1, 'only support single batch'
 
     # generate anchors
-    _anchors = generate_anchors(base_size=feat_stride, scales=anchor_scales, ratios=anchor_ratios)
+    _anchors = generate_anchors(base_size=feat_stride, ratios=anchor_ratios, scales=anchor_scales)
     num_anchors = _anchors.shape[0]
 
     A = num_anchors
     K = height * width
-    shift_x = np.arange(0, width) * cfg.FEAT_STRIDE
-    shift_y = np.arange(0, height) * cfg.FEAT_STRIDE
+    shift_x = np.arange(0, width) * feat_stride
+    shift_y = np.arange(0, height) * feat_stride
     shifts_x, shifts_y = np.meshgrid(shift_x, shift_y)
     shifts = np.vstack((shifts_x.ravel(), shifts_y.ravel(), shifts_x.ravel(), shifts_y.ravel())).transpose()
 
@@ -56,8 +56,8 @@ def anchor_target(rpn_cls_prob, gt_boxes, im_info):
     inside_inds = (
         (all_anchors[:, 0] >= -allowed_border) &
         (all_anchors[:, 1] >= -allowed_border) &
-        (all_anchors[:, 2] < im_width + allowed_border - 1) &
-        (all_anchors[:, 3] < im_height + allowed_border - 1)
+        (all_anchors[:, 2] <= im_width + allowed_border - 1) &
+        (all_anchors[:, 3] <= im_height + allowed_border - 1)
     )
 
     inside_inds = torch.nonzero(inside_inds).view(-1)

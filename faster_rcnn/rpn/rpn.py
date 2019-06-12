@@ -64,7 +64,7 @@ class RPN(nn.Module):
                 _rpn_bg_inds = torch.nonzero(rpn_label_targets == 0).view(-1)
                 _rpn_num_fg = _rpn_fg_inds.size(0)
                 _rpn_num_bg = _rpn_bg_inds.size(0)
-                _rpn_pred_data = rpn_cls_score[:, 1]
+                _rpn_pred_data = rpn_cls_prob_reshape.permute(0, 3, 4, 2, 1).contiguous().view(-1, 2)[:, 1]
                 _rpn_pred_info = (_rpn_pred_data >= 0.4).long()
                 _rpn_tp = torch.sum(rpn_label_targets[_rpn_fg_inds].long() == _rpn_pred_info[_rpn_fg_inds])
                 _rpn_tn = torch.sum(rpn_label_targets[_rpn_bg_inds].long() == _rpn_pred_info[_rpn_bg_inds])

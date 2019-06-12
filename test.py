@@ -21,13 +21,13 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Faster RCNN')
     parser.add_argument('--dataset', dest='dataset', default='voc07test', type=str)
     parser.add_argument('--backbone', dest='backbone', default='resnet101', type=str)
-    parser.add_argument('--use_gpu', dest='use_gpu', default=True, type=bool)
+    parser.add_argument('--gpu', dest='use_gpu', action='store_true', default=True)
     parser.add_argument('--batch_size', dest='batch_size', default=1, type=int)
     parser.add_argument('--thresh', dest='thresh', default=0.0, type=float)
-    parser.add_argument('--max_per_image', dest='max_per_image', default=10, type=int)
+    parser.add_argument('--max_per_image', dest='max_per_image', default=100, type=int)
     parser.add_argument('--check_epoch', dest='check_epoch', default=9, type=int)
     parser.add_argument('--output_dir', dest='output_dir', default='output', type=str)
-    parser.add_argument('--vis', dest='vis', default=False, type=bool)
+    parser.add_argument('--vis', dest='vis', action= 'store_true', default=None)
 
     args = parser.parse_args()
     return args
@@ -45,6 +45,8 @@ def test():
     else:
         raise NotImplementedError
 
+    cfg.TRAIN.USE_FLIPPED = False
+
     imdb, roidb = combined_roidb(dataset_name)
     test_dataset = RoiDataset(roidb)
     test_dataloader = DataLoader(dataset=test_dataset, batch_size=1, shuffle=False)
@@ -53,6 +55,8 @@ def test():
     # load model
     model = FasterRCNN(backbone=args.backbone)
     model_name = '0712_faster_rcnn101_epoch_{}.pth'.format(args.check_epoch)
+    if not os.path.exists(args.output_dir):
+        os.makedirs(args.output_dir)
     model_path = os.path.join(args.output_dir, model_name)
     model.load_state_dict(torch.load(model_path)['model'])
 
@@ -81,7 +85,7 @@ def test():
         im_data_variable = Variable(im_data)
 
         det_tic = time.time()
-        rois, faster_rcnn_cls_prob, faster_rcnn_reg, _, _, _, _, _train_info = model(im_data_variable, gt_boxes,
+        rois, faster_rcnn_cls_prob, faster_rcnn_reg, _, _, _, _, _ = model(im_data_variable, gt_boxes,
                                                                                      im_info)
 
         scores = faster_rcnn_cls_prob.data

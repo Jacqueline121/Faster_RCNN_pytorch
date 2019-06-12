@@ -28,7 +28,7 @@ def parse_args():
     parser.add_argument('--batch_size', dest='batch_size', default=1, type=int)
     parser.add_argument('--epochs', dest='epochs', default=10, type=int)
     parser.add_argument('--lr', dest='lr', default=0.001, type=float)
-    parser.add_argument('--decay_lrs', dest='decay_lrs', default=[7, 9])
+    parser.add_argument('--decay_lrs', dest='decay_lrs', default=[6, 8])
     parser.add_argument('--momentum', dest='momentum', default=0.9, type=float)
     parser.add_argument('--weight_decay', dest='weight_decay', default=0.0005, type=float)
     parser.add_argument('--bais_decay', dest='bais_decay', default=False, type=bool)
@@ -52,6 +52,8 @@ def train():
     bais_decay = args.bais_decay
     gamma = args.gamma
 
+    cfg.USE_GPU_NMS = True if args.use_gpu else False
+
     if args.use_tfboard:
         writer = SummaryWriter()
 
@@ -69,7 +71,7 @@ def train():
     imdb, roidb = combined_roidb(dataset_name)
     train_dataset = RoiDataset(roidb)
     train_dataloader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
-    iter_per_epoch = int(len(train_dataset))
+    iter_per_epoch = int(len(train_dataset) / args.batch_size)
 
     # prepare model
     print('load model')
@@ -89,7 +91,7 @@ def train():
     model.train()
 
     # define optimizer
-    optimizer = SGD(params, momentum)
+    optimizer = SGD(params, momentum=momentum)
 
     # training
     print('start training...')
@@ -168,6 +170,9 @@ def train():
                 rpn_tp, rpn_tn, rpn_fg, rpn_bg = 0, 0, 0, 0
                 faster_rcnn_tp, faster_rcnn_tn, faster_rcnn_fg, faster_rcnn_bg = 0, 0, 0, 0
                 start_time = time.time()
+
+        if not os.path.exists(args.output_dir):
+            os.mkdir(args.output_dir)
 
         if epoch % args.save_interval == 0:
             save_name = os.path.join(args.output_dir, 'faster_rcnn101_epoch_{}.pth'.format(epoch))
