@@ -17,8 +17,8 @@ A Python3.5/Pytroch implementation of Faster RCNN:[Faster R-CNN: Towards Real-Ti
 
 ### Results
 #### mAP
-Train on voc07trainval+voc12trainval
-Test on voc07test
+* Train on voc07trainval+voc12trainval
+* Test on voc07test
 
 | Paper/ResNet101 | This/ResNet101 | This/ResNet50 |
 | :-: | :-: | :-: |
