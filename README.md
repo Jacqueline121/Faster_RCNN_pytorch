@@ -32,7 +32,7 @@ The training accuracy of rpn and faster_rcnn:
 
 The training loss curves:
 
-<div align="center">![Alt text](/result/loss.PNG)</div>
+![Alt text](/result/loss.PNG)
 
 #### Detection Results
 ![Alt text](/result/result.png)
