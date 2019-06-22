@@ -26,10 +26,12 @@ Test on voc07test
 
 #### Acc and Loss
 The training accuracy of rpn and faster_rcnn:
+
 ![Alt text](/result/rpn_acc.PNG)
 ![Alt text](/result/faster_rcnn_acc.PNG)
 
 The training loss curves:
+
 ![Alt text](/result/loss.PNG)
 
 #### Detection Results
