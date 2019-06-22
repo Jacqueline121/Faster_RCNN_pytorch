@@ -15,6 +15,23 @@ A Python3.5/Pytroch implementation of Faster RCNN:[Faster R-CNN: Towards Real-Ti
 * matplotlib
 * easydict
 
+### Results
+#### mAP
+Train on voc07trainval+voc12trainval
+Test on voc07test
+Paper/ResNet101 | This/ResNet101 | This/ResNet50
+:-: | :-: | :-:
+76.4 | 77.1 | 75.3
+#### Acc and Loss
+The training accuracy of rpn and faster_rcnn:
+![Alt text](/result/rpn_acc.png)
+![Alt text](/result/faster_rcnn_acc.png)
+
+The training loss curves:
+![Alt text](/result/loss.png)
+
+#### Detection Results
+![Alt text](/result/result.png)
 
 ### Installation
 
