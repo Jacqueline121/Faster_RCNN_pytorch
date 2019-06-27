@@ -41,7 +41,7 @@ The training loss curves:
 
 1. Clone this repository (Faster_RCNN_pytorch):
     
-        git clone --recursive https://github.com/kevinjliang/tf-Faster-RCNN.git
+        git clone --recursive https://github.com/Jacqueline121/Faster_RCNN_pytorch.git
 
 2. Install dependencies:
     
