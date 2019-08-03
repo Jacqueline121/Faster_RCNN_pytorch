@@ -37,6 +37,12 @@ The training loss curves:
 #### Detection Results
 ![Alt text](/result/result.png)
 
+### Repo Organization
+* config: define configuration information of Faster RCNN.
+* dataset: scripts for creating, downloading, organizing datasets.
+* faster_rcnn: neural networks and components that form parts of Faster RCNN.
+* utils: tools package, containing some necessary functions.
+
 ### Installation
 
 1. Clone this repository (Faster_RCNN_pytorch):
@@ -52,12 +58,6 @@ The training loss curves:
     
         cd Faster_RCNN_pytorch/faster_rcnn
         sh make.sh
-
-### Repo Organization
-* config: define configuration information of Faster RCNN
-* dataset: Scripts for creating, downloading, organizing datasets.
-* faster_rcnn: Neural networks and components that form parts of Faster RCNN
-* utils: tools package, containing some necessary functions.
 
 ### Train
 
